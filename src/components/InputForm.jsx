@@ -308,6 +308,18 @@ export default function InputForm({ inputs, onChange, verticalPresets }) {
             step={0.1}
           />
         </Field>
+        <Field
+          label={`Minimum margin: ${(inputs.minMargin || 1).toFixed(2)}x`}
+          hint="Reject models that barely clear the target. 1.0x = pick smallest fit; 1.5x = require 50% above target before recommending."
+        >
+          <Slider
+            value={inputs.minMargin || 1}
+            onChange={(v) => update({ minMargin: v })}
+            min={1.0}
+            max={3.0}
+            step={0.05}
+          />
+        </Field>
       </Section>
     </div>
   );

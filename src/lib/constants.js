@@ -2,6 +2,7 @@ export const DEFAULT_DEVICES_PER_USER = 3;
 export const DEFAULT_HEADROOM_PCT = 40;
 export const PEAK_FACTOR = 1.5;
 export const AVG_TUNNEL_BANDWIDTH_MBPS = 10;
+export const DEFAULT_MIN_MARGIN = 1.5;
 
 export const IOT_HEAVY_VERTICALS = ['Manufacturing / OT', 'Healthcare (with imaging)'];
 

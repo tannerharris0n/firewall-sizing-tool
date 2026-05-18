@@ -7,6 +7,7 @@ import { decodeStateFromUrl, encodeStateToUrl } from './lib/url-state.js';
 import {
   DEFAULT_DEVICES_PER_USER,
   DEFAULT_HEADROOM_PCT,
+  DEFAULT_MIN_MARGIN,
   PEAK_FACTOR
 } from './lib/constants.js';
 import models from './data/fortigate-models.json';
@@ -29,6 +30,7 @@ function getDefaultInputs() {
     internetBandwidthMbps: 1000,
     headroomPct: DEFAULT_HEADROOM_PCT,
     peakFactor: PEAK_FACTOR,
+    minMargin: DEFAULT_MIN_MARGIN,
     showCompanionProducts: false,
     portRequirements: {
       copper: 0,

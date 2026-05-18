@@ -25,6 +25,8 @@ export function calculateRecommendation(inputs, models) {
   const requiredTPMbps = users * devicesPerUser * bandwidthPerDeviceMbps * peakFactor;
   const headroomMultiplier = 1 + headroomPct / 100;
   const targetTPMbps = requiredTPMbps * headroomMultiplier;
+  const minMargin = Math.max(1, Number(inputs.minMargin) || 1);
+  const minAcceptableMbps = targetTPMbps * minMargin;
 
   const validModels = (models || [])
     .filter((m) => typeof m.threatProtectionGbps === 'number')
@@ -32,7 +34,7 @@ export function calculateRecommendation(inputs, models) {
     .sort((a, b) => a.threatProtectionGbps - b.threatProtectionGbps);
 
   const eligible = validModels.filter(
-    (m) => gbpsToMbps(m.threatProtectionGbps) >= targetTPMbps
+    (m) => gbpsToMbps(m.threatProtectionGbps) >= minAcceptableMbps
   );
 
   const recommended = eligible[0] || null;
@@ -59,9 +61,15 @@ export function calculateRecommendation(inputs, models) {
   }
 
   if (!recommended && !databaseUnpopulated) {
-    warnings.push(
-      'No model in the database meets the target Threat Protection throughput. Consider chassis-class platforms or splitting traffic across multiple firewalls.'
-    );
+    if (minMargin > 1 && validModels.some((m) => gbpsToMbps(m.threatProtectionGbps) >= targetTPMbps)) {
+      warnings.push(
+        `No model clears the minimum margin of ${minMargin.toFixed(2)}x over target. Lower the minimum margin in Advanced to see picks that meet target without the safety factor.`
+      );
+    } else {
+      warnings.push(
+        'No model in the database meets the target Threat Protection throughput. Consider chassis-class platforms or splitting traffic across multiple firewalls.'
+      );
+    }
   }
 
   const vpnTunnels = Math.max(0, Number(inputs.vpnTunnels) || 0);
@@ -140,12 +148,17 @@ export function calculateRecommendation(inputs, models) {
     targetTPMbps: round(targetTPMbps),
     recommendedTPMbps: round(recTPMbps),
     marginMultiplier: round(margin, 2),
+    minMargin,
+    minAcceptableMbps: round(minAcceptableMbps),
     steps: [
       `${users} users x ${devicesPerUser} devices x ${bandwidthPerDeviceMbps} Mbps x ${peakFactor} peak factor = ${round(requiredTPMbps)} Mbps required`,
       `${round(requiredTPMbps)} Mbps x ${headroomMultiplier.toFixed(2)} (${headroomPct}% headroom) = ${round(targetTPMbps)} Mbps target`,
+      minMargin > 1
+        ? `${round(targetTPMbps)} Mbps x ${minMargin.toFixed(2)} (min margin) = ${round(minAcceptableMbps)} Mbps required of the chosen model`
+        : `No minimum margin applied (target is the bar to clear)`,
       recommended
-        ? `${recommended.model} provides ${recTPMbps} Mbps Threat Protection (${round(margin, 2)}x margin over target)`
-        : 'No model in the database meets the target.'
+        ? `${recommended.model} provides ${recTPMbps} Mbps Threat Protection (${round(margin, 2)}x over target, ${round(recTPMbps / Math.max(minAcceptableMbps, 1), 2)}x over min)`
+        : `No model in the database clears the ${round(minAcceptableMbps)} Mbps bar. Consider lowering the minimum margin or splitting traffic across multiple firewalls.`
     ]
   };
 
