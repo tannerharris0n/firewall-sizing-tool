@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Light Office / SMB General",
+    "bandwidthPerDeviceMbps": 0.5,
+    "notes": "Email, browsing, light SaaS. Minimal video."
+  },
+  {
+    "name": "Standard Office",
+    "bandwidthPerDeviceMbps": 1.0,
+    "notes": "Typical knowledge work with periodic video calls and cloud apps."
+  },
+  {
+    "name": "Heavy SaaS / Video Conferencing",
+    "bandwidthPerDeviceMbps": 2.5,
+    "notes": "All-day video meetings, large cloud-based file workflows."
+  },
+  {
+    "name": "Healthcare (with imaging)",
+    "bandwidthPerDeviceMbps": 3.0,
+    "notes": "PACS, EHR, imaging transfers. Strong SSL inspection load."
+  },
+  {
+    "name": "Education K-12",
+    "bandwidthPerDeviceMbps": 1.5,
+    "notes": "1:1 devices, streaming video for classrooms, testing windows."
+  },
+  {
+    "name": "Higher Education",
+    "bandwidthPerDeviceMbps": 2.0,
+    "notes": "Mixed research, residential, and BYOD. Session counts run high."
+  },
+  {
+    "name": "Manufacturing / OT",
+    "bandwidthPerDeviceMbps": 0.3,
+    "notes": "Many low-bandwidth IoT/OT devices. Session count usually dominates."
+  },
+  {
+    "name": "Hospitality (with guest WiFi)",
+    "bandwidthPerDeviceMbps": 2.0,
+    "notes": "Guest streaming-heavy traffic, captive portal, PCI scope."
+  },
+  {
+    "name": "Retail (multi-site)",
+    "bandwidthPerDeviceMbps": 1.0,
+    "notes": "POS, inventory, small staff networks at many sites. SD-WAN territory."
+  },
+  {
+    "name": "Financial Services",
+    "bandwidthPerDeviceMbps": 1.5,
+    "notes": "Trading, market data, strict logging and inspection requirements."
+  }
+]

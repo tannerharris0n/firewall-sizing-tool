@@ -1,0 +1,37 @@
+[phases.setup]
+nixPkgs = [
+  "nodejs_20",
+  "chromium",
+  "nss",
+  "freetype",
+  "harfbuzz",
+  "ca-certificates",
+  "fontconfig",
+  "glib",
+  "dbus",
+  "alsa-lib",
+  "atk",
+  "cups",
+  "gtk3",
+  "libdrm",
+  "mesa",
+  "nspr",
+  "pango",
+  "xorg.libX11",
+  "xorg.libxcb",
+  "xorg.libXcomposite",
+  "xorg.libXdamage",
+  "xorg.libXext",
+  "xorg.libXfixes",
+  "xorg.libXrandr",
+  "libxkbcommon"
+]
+
+[phases.build]
+cmds = ["npm install", "npm run build"]
+
+[variables]
+PUPPETEER_SKIP_DOWNLOAD = "false"
+
+[start]
+cmd = "node server.cjs"
