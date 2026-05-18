@@ -728,6 +728,32 @@
     "useCase": "NGFW - Data Center"
   },
   {
+    "model": "FortiGate 3000G",
+    "tier": "datacenter",
+    "firewallGbps": 397,
+    "ngfwGbps": 85,
+    "threatProtectionGbps": 80,
+    "ipsecVpnGbps": 105,
+    "sslInspectionGbps": 75,
+    "concurrentSessions": 88000000,
+    "newSessionsPerSec": 1100000,
+    "interfaces": "6x 100GE QSFP28/40GE QSFP+, 16x 25GE SFP28, 18x 10GE RJ45, 2x GE RJ45",
+    "portCounts": {
+      "copper": 20,
+      "sfp": 0,
+      "sfpPlus": 0,
+      "sfp28": 16,
+      "sfp56": 0,
+      "qsfp40": 0,
+      "qsfp100": 6,
+      "qsfp56": 0,
+      "qsfp400": 0
+    },
+    "poeWatts": 0,
+    "formFactor": "2U",
+    "useCase": "NGFW - Data Center"
+  },
+  {
     "model": "FortiGate 6001F",
     "tier": "chassis",
     "firewallGbps": 0,
@@ -777,6 +803,58 @@
     },
     "poeWatts": 0,
     "formFactor": "chassis",
+    "useCase": "NGFW - Data Center"
+  },
+  {
+    "model": "FortiGate 3500G",
+    "tier": "datacenter",
+    "firewallGbps": 595,
+    "ngfwGbps": 115,
+    "threatProtectionGbps": 105,
+    "ipsecVpnGbps": 163,
+    "sslInspectionGbps": 112,
+    "concurrentSessions": 179000000,
+    "newSessionsPerSec": 1100000,
+    "interfaces": "2x 400GE QSFP-DD, 4x 100GE QSFP28, 30x 25GE SFP28, 2x 10GE RJ45",
+    "portCounts": {
+      "copper": 2,
+      "sfp": 0,
+      "sfpPlus": 0,
+      "sfp28": 30,
+      "sfp56": 0,
+      "qsfp40": 0,
+      "qsfp100": 4,
+      "qsfp56": 0,
+      "qsfp400": 2
+    },
+    "poeWatts": 0,
+    "formFactor": "2U",
+    "useCase": "NGFW - Data Center"
+  },
+  {
+    "model": "FortiGate 3800G",
+    "tier": "datacenter",
+    "firewallGbps": 795,
+    "ngfwGbps": 210,
+    "threatProtectionGbps": 200,
+    "ipsecVpnGbps": 210,
+    "sslInspectionGbps": 120,
+    "concurrentSessions": 210000000,
+    "newSessionsPerSec": 1100000,
+    "interfaces": "4x 400GE QSFP-DD, 6x 200GE QSFP56, 18x 50GE SFP56, 2x 10GE RJ45",
+    "portCounts": {
+      "copper": 2,
+      "sfp": 0,
+      "sfpPlus": 0,
+      "sfp28": 0,
+      "sfp56": 18,
+      "qsfp40": 0,
+      "qsfp100": 0,
+      "qsfp56": 6,
+      "qsfp400": 4
+    },
+    "poeWatts": 0,
+    "formFactor": "3U",
     "useCase": "NGFW - Data Center"
   },
   {

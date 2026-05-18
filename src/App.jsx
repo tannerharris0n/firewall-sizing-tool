@@ -25,7 +25,7 @@ function getDefaultInputs() {
     sites: 1,
     features: [],
     vpnTunnels: 0,
-    sslVpnUsers: 0,
+    ipsecDialupUsers: 0,
     haRequired: false,
     internetBandwidthMbps: 1000,
     headroomPct: DEFAULT_HEADROOM_PCT,

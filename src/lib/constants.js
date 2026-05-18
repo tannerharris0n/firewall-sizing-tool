@@ -2,7 +2,19 @@ export const DEFAULT_DEVICES_PER_USER = 3;
 export const DEFAULT_HEADROOM_PCT = 40;
 export const PEAK_FACTOR = 1.5;
 export const AVG_TUNNEL_BANDWIDTH_MBPS = 10;
+export const AVG_DIALUP_USER_MBPS = 2;
 export const DEFAULT_MIN_MARGIN = 1.5;
+
+// Map inspection features to the FortiGate throughput metric they constrain.
+// The engine picks the most-restrictive metric across selected features.
+// Ordering matters: SSL Deep Inspection is the slowest path, so it wins.
+export const FEATURE_METRIC_PRIORITY = [
+  { feature: 'SSL Deep Inspection', metric: 'sslInspectionGbps', label: 'SSL Inspection throughput' },
+  { feature: 'Sandboxing',          metric: 'threatProtectionGbps', label: 'Threat Protection throughput' },
+  { feature: 'Antivirus',           metric: 'threatProtectionGbps', label: 'Threat Protection throughput' },
+  { feature: 'IPS',                 metric: 'ngfwGbps', label: 'NGFW throughput' },
+  { feature: 'Application Control', metric: 'ngfwGbps', label: 'NGFW throughput' }
+];
 
 export const IOT_HEAVY_VERTICALS = ['Manufacturing / OT', 'Healthcare (with imaging)'];
 

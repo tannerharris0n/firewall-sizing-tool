@@ -3,6 +3,7 @@ import ModelCard from './ModelCard.jsx';
 import CalculationBreakdown from './CalculationBreakdown.jsx';
 import CompanionProducts from './CompanionProducts.jsx';
 import RationaleBlock from './RationaleBlock.jsx';
+import WhyThisModel from './WhyThisModel.jsx';
 
 function formatTextSummary(inputs, recommendation) {
   const rec = recommendation.recommended;
@@ -15,7 +16,7 @@ function formatTextSummary(inputs, recommendation) {
   lines.push(`Sites: ${inputs.sites}`);
   lines.push(`Features: ${(inputs.features || []).join(', ') || 'none'}`);
   lines.push(`VPN tunnels: ${inputs.vpnTunnels}`);
-  lines.push(`SSL VPN users: ${inputs.sslVpnUsers}`);
+  lines.push(`IPsec dialup users: ${inputs.ipsecDialupUsers}`);
   lines.push(`HA: ${inputs.haRequired ? 'yes' : 'no'}`);
   lines.push('');
   if (rec) {
@@ -117,6 +118,8 @@ export default function ResultsPanel({ inputs, recommendation }) {
       </div>
 
       <CalculationBreakdown calculations={recommendation.calculations} />
+
+      <WhyThisModel inputs={inputs} recommendation={recommendation} />
 
       {warnings.length ? (
         <section className="bg-amber-50 border border-amber-200 rounded-lg px-5 py-4">

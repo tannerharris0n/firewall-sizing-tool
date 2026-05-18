@@ -250,7 +250,14 @@ export default function InputForm({ inputs, onChange, verticalPresets }) {
         </Field>
 
         <div className="grid grid-cols-2 gap-4">
-          <Field label="Site-to-site VPN tunnels">
+          <Field
+            label="Site-to-site VPN tunnels"
+            hint={
+              inputs.sites > 1
+                ? `Multisite floor: at least ${inputs.sites - 1} tunnels assumed (one per remote site).`
+                : 'Direct count of site-to-site IPsec tunnels.'
+            }
+          >
             <NumberInput
               value={inputs.vpnTunnels}
               onChange={(v) => update({ vpnTunnels: v === '' ? 0 : v })}
@@ -258,12 +265,15 @@ export default function InputForm({ inputs, onChange, verticalPresets }) {
               max={10000}
             />
           </Field>
-          <Field label="Concurrent SSL VPN users">
+          <Field
+            label="Remote IPsec dialup users"
+            hint="Concurrent remote workers connecting via FortiClient IPsec. SSL VPN is deprecated."
+          >
             <NumberInput
-              value={inputs.sslVpnUsers}
-              onChange={(v) => update({ sslVpnUsers: v === '' ? 0 : v })}
+              value={inputs.ipsecDialupUsers}
+              onChange={(v) => update({ ipsecDialupUsers: v === '' ? 0 : v })}
               min={0}
-              max={10000}
+              max={100000}
             />
           </Field>
         </div>

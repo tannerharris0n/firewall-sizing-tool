@@ -34,7 +34,7 @@ function buildUserPrompt({ inputs, recommendation }) {
   lines.push('## Requirements');
   lines.push(`Features selected: ${features.length ? features.join(', ') : 'none'}`);
   lines.push(`Site-to-site VPN tunnels: ${inp.vpnTunnels ?? 0}`);
-  lines.push(`Concurrent SSL VPN users: ${inp.sslVpnUsers ?? 0}`);
+  lines.push(`Remote IPsec dialup users: ${inp.ipsecDialupUsers ?? 0}`);
   lines.push(`HA pair required: ${inp.haRequired ? 'yes' : 'no'}`);
   lines.push('');
   lines.push('## Recommended model');

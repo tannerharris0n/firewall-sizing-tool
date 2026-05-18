@@ -20,7 +20,7 @@ export default function CompanionProducts({ inputs }) {
     ['IPS', 'Sandboxing', 'SSL Deep Inspection', 'Application Control'].includes(f)
   );
   const wantsAuth =
-    (inputs.features || []).includes('ZTNA') || (inputs.sslVpnUsers || 0) > 0;
+    (inputs.features || []).includes('ZTNA') || (inputs.ipsecDialupUsers || 0) > 0;
 
   return (
     <section className="bg-white rounded-lg shadow-sm border border-slate-200 px-5 py-5">
@@ -48,7 +48,7 @@ export default function CompanionProducts({ inputs }) {
             <span className="font-medium text-slate-900">FortiAuthenticator:</span> recommended
             for centralized identity and MFA given {(inputs.features || []).includes('ZTNA')
               ? 'ZTNA'
-              : 'SSL VPN'}{' '}
+              : 'remote IPsec dialup'}{' '}
             requirements
           </li>
         ) : null}
