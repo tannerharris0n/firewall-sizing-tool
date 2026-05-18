@@ -28,7 +28,12 @@ export function calculateRecommendation(inputs, models) {
 
   const requiredTPMbps = users * devicesPerUser * bandwidthPerDeviceMbps * peakFactor;
   const headroomMultiplier = 1 + headroomPct / 100;
-  const targetTPMbps = requiredTPMbps * headroomMultiplier;
+  const calculatedTargetMbps = requiredTPMbps * headroomMultiplier;
+  const internetMbps = Math.max(0, Number(inputs.internetBandwidthMbps) || 0);
+  // The firewall must handle the full internet pipe regardless of calculated
+  // user load — anything below the pipe size will throttle the user's WAN.
+  const targetTPMbps = Math.max(calculatedTargetMbps, internetMbps);
+  const targetDrivenBy = internetMbps > calculatedTargetMbps ? 'internet' : 'calculated';
   const minMargin = Math.max(1, Number(inputs.minMargin) || 1);
   const minAcceptableMbps = targetTPMbps * minMargin;
 
@@ -113,18 +118,10 @@ export function calculateRecommendation(inputs, models) {
     );
   }
 
-  const internetMbps = Math.max(0, Number(inputs.internetBandwidthMbps) || 0);
-  if (recommended && internetMbps > 0) {
-    const recTP = gbpsToMbps(recommended.threatProtectionGbps);
-    if (recTP > 0 && internetMbps > recTP * 0.8) {
-      warnings.push(
-        `Internet pipe (${internetMbps} Mbps) is close to or exceeds ${recommended.model}'s Threat Protection ceiling (${recTP} Mbps). Full WAN inspection at peak will saturate the firewall — consider stepping up.`
-      );
-    } else if (internetMbps > requiredTPMbps * 3 && requiredTPMbps > 0) {
-      warnings.push(
-        `Internet pipe (${internetMbps} Mbps) is much larger than the calculated load (${round(requiredTPMbps)} Mbps required). Either the user/bandwidth inputs underestimate real usage, or the pipe is oversized for the user count.`
-      );
-    }
+  if (internetMbps > calculatedTargetMbps * 3 && calculatedTargetMbps > 0) {
+    warnings.push(
+      `Internet pipe (${internetMbps} Mbps) is much larger than the calculated user load (${round(calculatedTargetMbps)} Mbps with headroom). Sizing was driven by the pipe; either the user/bandwidth inputs underestimate real usage, or the pipe is oversized for the user count.`
+    );
   }
 
   if (recommended && inputs.portRequirements && typeof inputs.portRequirements === 'object') {
@@ -173,9 +170,17 @@ export function calculateRecommendation(inputs, models) {
     marginMultiplier: round(margin, 2),
     minMargin,
     minAcceptableMbps: round(minAcceptableMbps),
+    targetDrivenBy,
+    internetMbps,
+    calculatedTargetMbps: round(calculatedTargetMbps),
     steps: [
       `${users} users x ${devicesPerUser} devices x ${bandwidthPerDeviceMbps} Mbps x ${peakFactor} peak factor = ${round(requiredTPMbps)} Mbps required`,
-      `${round(requiredTPMbps)} Mbps x ${headroomMultiplier.toFixed(2)} (${headroomPct}% headroom) = ${round(targetTPMbps)} Mbps target`,
+      `${round(requiredTPMbps)} Mbps x ${headroomMultiplier.toFixed(2)} (${headroomPct}% headroom) = ${round(calculatedTargetMbps)} Mbps calculated target`,
+      internetMbps > 0
+        ? (targetDrivenBy === 'internet'
+            ? `Internet pipe (${internetMbps} Mbps) exceeds calculated load — pipe size becomes the target (${round(targetTPMbps)} Mbps)`
+            : `Internet pipe is ${internetMbps} Mbps (below calculated load — calculated target stands at ${round(targetTPMbps)} Mbps)`)
+        : `No internet bandwidth entered — calculated target stands at ${round(targetTPMbps)} Mbps`,
       minMargin > 1
         ? `${round(targetTPMbps)} Mbps x ${minMargin.toFixed(2)} (min margin) = ${round(minAcceptableMbps)} Mbps required of the chosen model`
         : `No minimum margin applied (target is the bar to clear)`,

@@ -182,7 +182,7 @@ export default function InputForm({ inputs, onChange, verticalPresets }) {
           </Field>
           <Field
             label="Internet bandwidth (Mbps)"
-            hint="Expected peak WAN speed (down). Used as a sanity check against the calculated load."
+            hint="Expected peak WAN speed. Becomes the target throughput floor — firewalls below this are filtered out."
           >
             <NumberInput
               value={inputs.internetBandwidthMbps}
@@ -191,6 +191,33 @@ export default function InputForm({ inputs, onChange, verticalPresets }) {
               max={1000000}
             />
           </Field>
+        </div>
+
+        <div className="pt-3 border-t border-slate-100">
+          <div className="text-sm font-medium text-slate-700 mb-1">Interfaces required</div>
+          <p className="text-xs text-slate-500 mb-3">
+            Optional. Enter the number of each port type the deployment needs. The
+            recommendation flags a warning if the chosen model is short on any.
+          </p>
+          <div className="grid grid-cols-3 gap-3">
+            {PORT_TYPES.map(({ key, label, hint }) => (
+              <Field key={key} label={label} hint={hint}>
+                <NumberInput
+                  value={(inputs.portRequirements && inputs.portRequirements[key]) || 0}
+                  onChange={(v) =>
+                    update({
+                      portRequirements: {
+                        ...inputs.portRequirements,
+                        [key]: v === '' ? 0 : v
+                      }
+                    })
+                  }
+                  min={0}
+                  max={1000}
+                />
+              </Field>
+            ))}
+          </div>
         </div>
       </Section>
 
@@ -256,32 +283,6 @@ export default function InputForm({ inputs, onChange, verticalPresets }) {
             label={inputs.showCompanionProducts ? 'Showing' : 'Hidden'}
           />
         </Field>
-      </Section>
-
-      <Section title="Interfaces required" defaultOpen={false} collapsible>
-        <p className="text-xs text-slate-500 -mt-1">
-          Optional. Enter the number of each port type the deployment needs. The recommendation
-          flags a warning if the chosen model is short on any of them.
-        </p>
-        <div className="grid grid-cols-2 gap-3">
-          {PORT_TYPES.map(({ key, label, hint }) => (
-            <Field key={key} label={label} hint={hint}>
-              <NumberInput
-                value={(inputs.portRequirements && inputs.portRequirements[key]) || 0}
-                onChange={(v) =>
-                  update({
-                    portRequirements: {
-                      ...inputs.portRequirements,
-                      [key]: v === '' ? 0 : v
-                    }
-                  })
-                }
-                min={0}
-                max={1000}
-              />
-            </Field>
-          ))}
-        </div>
       </Section>
 
       <Section title="Advanced" defaultOpen={false} collapsible>
