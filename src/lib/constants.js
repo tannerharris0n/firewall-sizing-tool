@@ -22,7 +22,9 @@ export const PORT_TYPES = [
   { key: 'sfp',     label: 'SFP (1G fiber)', hint: '1 Gbps optical' },
   { key: 'sfpPlus', label: 'SFP+ (10G)',     hint: '10 Gbps optical' },
   { key: 'sfp28',   label: 'SFP28 (25G)',    hint: '25 Gbps optical' },
+  { key: 'sfp56',   label: 'SFP56 (50G)',    hint: '50 Gbps optical' },
   { key: 'qsfp40',  label: 'QSFP+ (40G)',    hint: '40 Gbps QSFP+' },
   { key: 'qsfp100', label: 'QSFP28 (100G)',  hint: '100 Gbps QSFP28' },
+  { key: 'qsfp56',  label: 'QSFP56 (200G)',  hint: '200 Gbps QSFP56' },
   { key: 'qsfp400', label: 'QSFP-DD (400G)', hint: '400 Gbps QSFP-DD' }
 ];

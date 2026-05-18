@@ -35,8 +35,10 @@ function getDefaultInputs() {
       sfp: 0,
       sfpPlus: 0,
       sfp28: 0,
+      sfp56: 0,
       qsfp40: 0,
       qsfp100: 0,
+      qsfp56: 0,
       qsfp400: 0
     }
   };
