@@ -171,14 +171,27 @@ export default function InputForm({ inputs, onChange, verticalPresets }) {
           </select>
         </Field>
 
-        <Field label="Number of sites">
-          <NumberInput
-            value={inputs.sites}
-            onChange={(v) => update({ sites: v === '' ? 1 : v })}
-            min={1}
-            max={5000}
-          />
-        </Field>
+        <div className="grid grid-cols-2 gap-4">
+          <Field label="Number of sites">
+            <NumberInput
+              value={inputs.sites}
+              onChange={(v) => update({ sites: v === '' ? 1 : v })}
+              min={1}
+              max={5000}
+            />
+          </Field>
+          <Field
+            label="Internet bandwidth (Mbps)"
+            hint="Expected peak WAN speed (down). Used as a sanity check against the calculated load."
+          >
+            <NumberInput
+              value={inputs.internetBandwidthMbps}
+              onChange={(v) => update({ internetBandwidthMbps: v === '' ? 0 : v })}
+              min={1}
+              max={1000000}
+            />
+          </Field>
+        </div>
       </Section>
 
       <Section title="Requirements">
@@ -228,25 +241,13 @@ export default function InputForm({ inputs, onChange, verticalPresets }) {
           </Field>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 items-end">
-          <Field label="Internet bandwidth (Mbps)">
-            <NumberInput
-              value={inputs.internetBandwidthMbps}
-              onChange={(v) => update({ internetBandwidthMbps: v === '' ? 0 : v })}
-              min={1}
-              max={1000000}
-            />
-          </Field>
-          <Field label="HA pair required">
-            <div className="pt-1">
-              <Toggle
-                checked={inputs.haRequired}
-                onChange={(v) => update({ haRequired: v })}
-                label={inputs.haRequired ? 'Yes (two units)' : 'No (single unit)'}
-              />
-            </div>
-          </Field>
-        </div>
+        <Field label="HA pair required">
+          <Toggle
+            checked={inputs.haRequired}
+            onChange={(v) => update({ haRequired: v })}
+            label={inputs.haRequired ? 'Yes (two units)' : 'No (single unit)'}
+          />
+        </Field>
 
         <Field label="Show companion product suggestions">
           <Toggle

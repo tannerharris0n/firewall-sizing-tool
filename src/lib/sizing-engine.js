@@ -113,6 +113,20 @@ export function calculateRecommendation(inputs, models) {
     );
   }
 
+  const internetMbps = Math.max(0, Number(inputs.internetBandwidthMbps) || 0);
+  if (recommended && internetMbps > 0) {
+    const recTP = gbpsToMbps(recommended.threatProtectionGbps);
+    if (recTP > 0 && internetMbps > recTP * 0.8) {
+      warnings.push(
+        `Internet pipe (${internetMbps} Mbps) is close to or exceeds ${recommended.model}'s Threat Protection ceiling (${recTP} Mbps). Full WAN inspection at peak will saturate the firewall — consider stepping up.`
+      );
+    } else if (internetMbps > requiredTPMbps * 3 && requiredTPMbps > 0) {
+      warnings.push(
+        `Internet pipe (${internetMbps} Mbps) is much larger than the calculated load (${round(requiredTPMbps)} Mbps required). Either the user/bandwidth inputs underestimate real usage, or the pipe is oversized for the user count.`
+      );
+    }
+  }
+
   if (recommended && inputs.portRequirements && typeof inputs.portRequirements === 'object') {
     const have = recommended.portCounts || {};
     const shortfalls = [];
