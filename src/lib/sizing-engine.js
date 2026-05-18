@@ -15,6 +15,10 @@ function gbpsToMbps(gbps) {
   return (Number(gbps) || 0) * 1000;
 }
 
+function isGSeries(model) {
+  return typeof model.model === 'string' && /G$/.test(model.model.trim());
+}
+
 export function calculateRecommendation(inputs, models) {
   const users = Math.max(1, Number(inputs.users) || 0);
   const devicesPerUser = Math.max(1, Number(inputs.devicesPerUser) || 1);
@@ -37,7 +41,12 @@ export function calculateRecommendation(inputs, models) {
     (m) => gbpsToMbps(m.threatProtectionGbps) >= minAcceptableMbps
   );
 
-  const recommended = eligible[0] || null;
+  // Prefer G-series over F-series among eligible. If no G-series clears the
+  // threshold, fall back to the smallest eligible model regardless of series.
+  const eligibleG = eligible.filter(isGSeries);
+  const recommended = eligibleG[0] || eligible[0] || null;
+  const preferredGOverSmallerF =
+    recommended && isGSeries(recommended) && eligible[0] && eligible[0].model !== recommended.model;
   let alternativeDown = null;
   let alternativeUp = null;
 
@@ -158,7 +167,10 @@ export function calculateRecommendation(inputs, models) {
         : `No minimum margin applied (target is the bar to clear)`,
       recommended
         ? `${recommended.model} provides ${recTPMbps} Mbps Threat Protection (${round(margin, 2)}x over target, ${round(recTPMbps / Math.max(minAcceptableMbps, 1), 2)}x over min)`
-        : `No model in the database clears the ${round(minAcceptableMbps)} Mbps bar. Consider lowering the minimum margin or splitting traffic across multiple firewalls.`
+        : `No model in the database clears the ${round(minAcceptableMbps)} Mbps bar. Consider lowering the minimum margin or splitting traffic across multiple firewalls.`,
+      ...(preferredGOverSmallerF
+        ? [`Preferred ${recommended.model} (G-series) over the smaller-but-eligible ${eligible[0].model} (F-series)`]
+        : [])
     ]
   };
 
