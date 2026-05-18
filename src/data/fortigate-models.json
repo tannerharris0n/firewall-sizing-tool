@@ -1,31 +1,5 @@
 [
   {
-    "model": "FortiGate 90E",
-    "tier": "desktop",
-    "firewallGbps": 4,
-    "ngfwGbps": 0.38,
-    "threatProtectionGbps": 0.27,
-    "ipsecVpnGbps": 0.24,
-    "sslInspectionGbps": 0.3,
-    "concurrentSessions": 1200000,
-    "newSessionsPerSec": 27500,
-    "interfaces": "Desktop Unit: 16 GE RJ45 Ports Internal Storage: Not Available",
-    "portCounts": {
-      "copper": 16,
-      "sfp": 0,
-      "sfpPlus": 0,
-      "sfp28": 0,
-      "sfp56": 0,
-      "qsfp40": 0,
-      "qsfp100": 0,
-      "qsfp56": 0,
-      "qsfp400": 0
-    },
-    "poeWatts": 0,
-    "formFactor": "desktop",
-    "useCase": ""
-  },
-  {
     "model": "FortiGate 30G",
     "tier": "desktop",
     "firewallGbps": 4,
@@ -312,32 +286,6 @@
     "useCase": "NGFW - Campus"
   },
   {
-    "model": "FortiGate 2500E",
-    "tier": "enterprise",
-    "firewallGbps": 150,
-    "ngfwGbps": 9,
-    "threatProtectionGbps": 5.4,
-    "ipsecVpnGbps": 95,
-    "sslInspectionGbps": 9.4,
-    "concurrentSessions": 20000000,
-    "newSessionsPerSec": 500000,
-    "interfaces": "10 (+ 2 bypass)x Hardware Accelerated 10 GE SFP+ Slots, 32x Hardware Accelerated GE RJ45 Ports, 2x GE RJ45 Management / HA Ports, Internal Storage: 480 GB",
-    "portCounts": {
-      "copper": 2,
-      "sfp": 0,
-      "sfpPlus": 0,
-      "sfp28": 0,
-      "sfp56": 0,
-      "qsfp40": 0,
-      "qsfp100": 0,
-      "qsfp56": 0,
-      "qsfp400": 0
-    },
-    "poeWatts": 0,
-    "formFactor": "2U",
-    "useCase": ""
-  },
-  {
     "model": "FortiGate 200G",
     "tier": "midrange",
     "firewallGbps": 39,
@@ -362,32 +310,6 @@
     "poeWatts": 0,
     "formFactor": "1U",
     "useCase": "NGFW - Campus"
-  },
-  {
-    "model": "FortiGate 1100E",
-    "tier": "enterprise",
-    "firewallGbps": 80,
-    "ngfwGbps": 9.8,
-    "threatProtectionGbps": 7.1,
-    "ipsecVpnGbps": 48,
-    "sslInspectionGbps": 10,
-    "concurrentSessions": 8000000,
-    "newSessionsPerSec": 500000,
-    "interfaces": "2 x 40GE QSFP+ slots , 4x 25GE SFP28 slots, 4 x 10GE SFP+ slots, 8 x 1GE SFP slots, 18 x GE RJ45 ports (including 16 x ports, 2 x management ports)",
-    "portCounts": {
-      "copper": 18,
-      "sfp": 8,
-      "sfpPlus": 4,
-      "sfp28": 4,
-      "sfp56": 0,
-      "qsfp40": 2,
-      "qsfp100": 0,
-      "qsfp56": 0,
-      "qsfp400": 0
-    },
-    "poeWatts": 0,
-    "formFactor": "1U",
-    "useCase": ""
   },
   {
     "model": "FortiGate 400F",
@@ -440,32 +362,6 @@
     "poeWatts": 0,
     "formFactor": "1U",
     "useCase": "NGFW - Campus"
-  },
-  {
-    "model": "FortiGate 2200E",
-    "tier": "enterprise",
-    "firewallGbps": 158,
-    "ngfwGbps": 13.5,
-    "threatProtectionGbps": 11,
-    "ipsecVpnGbps": 98,
-    "sslInspectionGbps": 17,
-    "concurrentSessions": 24000000,
-    "newSessionsPerSec": 500000,
-    "interfaces": "4 x 40GE QSFP+ slots , 20 x 10GE SFP+ slots (including 18x ports, 2x HA ports), 14 x GE RJ45 ports (including 12 x ports, 2 x management ports), SPU NP6 and CP9 hardware accelerated, and dual AC power supplies.",
-    "portCounts": {
-      "copper": 14,
-      "sfp": 0,
-      "sfpPlus": 20,
-      "sfp28": 0,
-      "sfp56": 0,
-      "qsfp40": 4,
-      "qsfp100": 0,
-      "qsfp56": 0,
-      "qsfp400": 0
-    },
-    "poeWatts": 0,
-    "formFactor": "2U",
-    "useCase": ""
   },
   {
     "model": "FortiGate 400G",
@@ -544,32 +440,6 @@
     "poeWatts": 0,
     "formFactor": "2U",
     "useCase": "NGFW - Data Center"
-  },
-  {
-    "model": "FortiGate 3300E",
-    "tier": "datacenter",
-    "firewallGbps": 160,
-    "ngfwGbps": 23,
-    "threatProtectionGbps": 17,
-    "ipsecVpnGbps": 98,
-    "sslInspectionGbps": 21,
-    "concurrentSessions": 50000000,
-    "newSessionsPerSec": 460000,
-    "interfaces": "4 x 40GE QSFP+ slots , 20 x 10GE SFP+/25GE SFP28 slots (including 18x ports, 2x HA ports), 14 x GE RJ45 ports (including 12x ports, 2 x management ports)",
-    "portCounts": {
-      "copper": 14,
-      "sfp": 0,
-      "sfpPlus": 20,
-      "sfp28": 0,
-      "sfp56": 0,
-      "qsfp40": 4,
-      "qsfp100": 0,
-      "qsfp56": 0,
-      "qsfp400": 0
-    },
-    "poeWatts": 0,
-    "formFactor": "2U",
-    "useCase": ""
   },
   {
     "model": "FortiGate 2600F",
