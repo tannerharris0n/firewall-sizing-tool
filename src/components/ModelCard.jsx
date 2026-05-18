@@ -1,4 +1,5 @@
 import React from 'react';
+import { PORT_TYPES } from '../lib/constants.js';
 
 function formatGbps(n) {
   if (typeof n !== 'number' || !isFinite(n)) return '—';
@@ -89,6 +90,25 @@ export default function ModelCard({
           ) : null}
         </div>
       )}
+
+      {model.portCounts ? (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {PORT_TYPES.map(({ key, label }) => {
+            const n = Number(model.portCounts[key]) || 0;
+            if (n === 0) return null;
+            return (
+              <span
+                key={key}
+                className="inline-flex items-center gap-1 text-[11px] font-medium bg-slate-100 text-slate-700 px-2 py-0.5 rounded"
+                title={label}
+              >
+                <span className="font-bold text-slate-900">{n}</span>
+                <span className="text-slate-500">{label.replace(/ \(.*\)/, '')}</span>
+              </span>
+            );
+          })}
+        </div>
+      ) : null}
 
       {model.useCase ? (
         <div className="mt-3 text-sm text-slate-700 italic">{model.useCase}</div>

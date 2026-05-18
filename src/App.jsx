@@ -29,7 +29,16 @@ function getDefaultInputs() {
     internetBandwidthMbps: 1000,
     headroomPct: DEFAULT_HEADROOM_PCT,
     peakFactor: PEAK_FACTOR,
-    showCompanionProducts: false
+    showCompanionProducts: false,
+    portRequirements: {
+      copper: 0,
+      sfp: 0,
+      sfpPlus: 0,
+      sfp28: 0,
+      qsfp40: 0,
+      qsfp100: 0,
+      qsfp400: 0
+    }
   };
 }
 

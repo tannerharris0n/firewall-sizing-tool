@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PORT_TYPES } from '../lib/constants.js';
 
 const FEATURES = [
   'SD-WAN',
@@ -254,6 +255,32 @@ export default function InputForm({ inputs, onChange, verticalPresets }) {
             label={inputs.showCompanionProducts ? 'Showing' : 'Hidden'}
           />
         </Field>
+      </Section>
+
+      <Section title="Interfaces required" defaultOpen={false} collapsible>
+        <p className="text-xs text-slate-500 -mt-1">
+          Optional. Enter the number of each port type the deployment needs. The recommendation
+          flags a warning if the chosen model is short on any of them.
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          {PORT_TYPES.map(({ key, label, hint }) => (
+            <Field key={key} label={label} hint={hint}>
+              <NumberInput
+                value={(inputs.portRequirements && inputs.portRequirements[key]) || 0}
+                onChange={(v) =>
+                  update({
+                    portRequirements: {
+                      ...inputs.portRequirements,
+                      [key]: v === '' ? 0 : v
+                    }
+                  })
+                }
+                min={0}
+                max={1000}
+              />
+            </Field>
+          ))}
+        </div>
       </Section>
 
       <Section title="Advanced" defaultOpen={false} collapsible>

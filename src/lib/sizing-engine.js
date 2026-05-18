@@ -1,6 +1,7 @@
 import {
   AVG_TUNNEL_BANDWIDTH_MBPS,
   IOT_HEAVY_VERTICALS,
+  PORT_TYPES,
   SESSION_PER_USER_BASE,
   SESSION_PER_DEVICE_IOT
 } from './constants.js';
@@ -93,6 +94,26 @@ export function calculateRecommendation(inputs, models) {
     warnings.push(
       'HA pair requested: order two identical units. Active-passive HA does not increase throughput; active-active scales only some workloads. Confirm with a sales engineer.'
     );
+  }
+
+  if (recommended && inputs.portRequirements && typeof inputs.portRequirements === 'object') {
+    const have = recommended.portCounts || {};
+    const shortfalls = [];
+    PORT_TYPES.forEach(({ key, label }) => {
+      const need = Math.max(0, Number(inputs.portRequirements[key]) || 0);
+      if (need > 0) {
+        const got = Number(have[key]) || 0;
+        if (got < need) {
+          shortfalls.push(`${label}: need ${need}, ${recommended.model} has ${got}`);
+        }
+      }
+    });
+    if (shortfalls.length) {
+      warnings.push(
+        'Interface shortfall on the recommended model — ' + shortfalls.join('; ') +
+        '. Consider stepping up, adding a separate switch for access ports, or running a FortiSwitch stack behind the firewall.'
+      );
+    }
   }
 
   if (Array.isArray(inputs.features) && inputs.features.includes('SSL Deep Inspection')) {

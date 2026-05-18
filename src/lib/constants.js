@@ -16,3 +16,13 @@ export const HIGH_DENSITY_VERTICALS = [
   'Higher Education',
   'Hospitality (with guest WiFi)'
 ];
+
+export const PORT_TYPES = [
+  { key: 'copper',  label: 'Copper (RJ45)',  hint: 'Any speed: 1G / 2.5G / 5G / 10G over RJ45' },
+  { key: 'sfp',     label: 'SFP (1G fiber)', hint: '1 Gbps optical' },
+  { key: 'sfpPlus', label: 'SFP+ (10G)',     hint: '10 Gbps optical' },
+  { key: 'sfp28',   label: 'SFP28 (25G)',    hint: '25 Gbps optical' },
+  { key: 'qsfp40',  label: 'QSFP+ (40G)',    hint: '40 Gbps QSFP+' },
+  { key: 'qsfp100', label: 'QSFP28 (100G)',  hint: '100 Gbps QSFP28' },
+  { key: 'qsfp400', label: 'QSFP-DD (400G)', hint: '400 Gbps QSFP-DD' }
+];
