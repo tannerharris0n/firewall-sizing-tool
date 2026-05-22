@@ -26,7 +26,11 @@ function pickMetricForFeatures(features) {
   for (const entry of FEATURE_METRIC_PRIORITY) {
     if (selected.has(entry.feature)) return entry;
   }
-  return { feature: null, metric: 'firewallGbps', label: 'Firewall throughput' };
+  // No inspection features selected: size on Threat Protection throughput, not
+  // raw firewallGbps. Raw L3/L4 firewall throughput is a large-packet best-case
+  // datasheet number — every box clears it for an unrealistic range of loads,
+  // which freezes the recommendation. Threat Protection is the realistic floor.
+  return { feature: null, metric: 'threatProtectionGbps', label: 'Threat Protection throughput' };
 }
 
 export function calculateRecommendation(inputs, models) {
