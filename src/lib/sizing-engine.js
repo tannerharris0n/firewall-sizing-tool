@@ -62,8 +62,12 @@ export function calculateRecommendation(inputs, models) {
   const ipsecLoadMbps =
     effectiveTunnels * AVG_TUNNEL_BANDWIDTH_MBPS + ipsecDialupUsers * AVG_DIALUP_USER_MBPS;
 
+  // Exclude models with a 0/missing value for the active metric. A 0 means
+  // "not rated for this metric" (e.g. chassis platforms have no fixed firewall
+  // throughput), not "zero capacity" — letting it through sorts it to the front
+  // of the list and pollutes the recommendation's step-down/step-up neighbors.
   const validModels = (models || [])
-    .filter((m) => typeof m[metricChoice.metric] === 'number')
+    .filter((m) => typeof m[metricChoice.metric] === 'number' && m[metricChoice.metric] > 0)
     .slice()
     .sort((a, b) => (a[metricChoice.metric] || 0) - (b[metricChoice.metric] || 0));
 
