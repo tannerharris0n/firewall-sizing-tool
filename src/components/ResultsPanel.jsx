@@ -5,6 +5,28 @@ import CompanionProducts from './CompanionProducts.jsx';
 import RationaleBlock from './RationaleBlock.jsx';
 import WhyThisModel from './WhyThisModel.jsx';
 
+function comparisonVerdict(c) {
+  if (!c) return null;
+  const name = c.model.model;
+  const label = c.metricLabel;
+  if (!c.metricRated) {
+    return {
+      tone: 'neutral',
+      text: `No published ${label} rating for the ${name} — compare against its datasheet directly.`
+    };
+  }
+  if (c.clearsTarget) {
+    return {
+      tone: 'good',
+      text: `Clears the ${label} target with +${c.deltaPct}% headroom (${c.metricMbps} Mbps vs ${c.targetTPMbps} Mbps target).`
+    };
+  }
+  return {
+    tone: 'bad',
+    text: `Falls ~${Math.abs(c.deltaPct)}% short of the ${label} target (${c.metricMbps} Mbps vs ${c.targetTPMbps} Mbps) — undersized for this environment.`
+  };
+}
+
 function formatTextSummary(inputs, recommendation) {
   const rec = recommendation.recommended;
   const lines = [];
@@ -32,6 +54,15 @@ function formatTextSummary(inputs, recommendation) {
   }
   if (recommendation.alternativeUp) {
     lines.push(`Step up: ${recommendation.alternativeUp.model} (more headroom)`);
+  }
+  const c = recommendation.comparison;
+  if (c) {
+    const v = comparisonVerdict(c);
+    lines.push('');
+    lines.push(`Current model: ${c.model.model} (comparison only — not recommended)`);
+    lines.push(`  Threat Protection: ${c.model.threatProtectionGbps} Gbps`);
+    lines.push(`  IPsec VPN: ${c.model.ipsecVpnGbps} Gbps`);
+    if (v) lines.push(`  Verdict: ${v.text}`);
   }
   lines.push('');
   lines.push('Math:');
@@ -93,6 +124,13 @@ export default function ResultsPanel({ inputs, recommendation }) {
 
   const margin = recommendation.calculations.marginMultiplier;
   const warnings = recommendation.warnings || [];
+  const comparison = recommendation.comparison;
+  const verdict = comparisonVerdict(comparison);
+  const verdictTone = {
+    good: 'bg-emerald-50 border-emerald-200 text-emerald-900',
+    bad: 'bg-rose-50 border-rose-200 text-rose-900',
+    neutral: 'bg-slate-50 border-slate-200 text-slate-700'
+  };
 
   return (
     <div className="space-y-4">
@@ -116,6 +154,28 @@ export default function ResultsPanel({ inputs, recommendation }) {
           accent="border-indigo-400"
         />
       </div>
+
+      {comparison ? (
+        <section className="space-y-2">
+          <ModelCard
+            model={comparison.model}
+            label="Your current model (comparison only — not a recommendation)"
+            accent="border-slate-400"
+            marginMultiplier={comparison.metricRated ? comparison.marginMultiplier : undefined}
+          />
+          {verdict ? (
+            <div className={'text-sm rounded-md border px-4 py-3 ' + verdictTone[verdict.tone]}>
+              {verdict.text}
+              {comparison.ipsecRated && !comparison.ipsecOk ? (
+                <div className="mt-1">
+                  IPsec VPN capacity ({comparison.ipsecMbps} Mbps) is below the{' '}
+                  {comparison.ipsecLoadMbps} Mbps tunnel/dialup load too.
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+        </section>
+      ) : null}
 
       <CalculationBreakdown calculations={recommendation.calculations} />
 

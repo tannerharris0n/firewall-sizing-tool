@@ -44,6 +44,22 @@ function renderModelBlock(label, model, accent) {
   `;
 }
 
+function renderComparisonBlock(comparison) {
+  if (!comparison || !comparison.model) return '';
+  let verdict;
+  if (!comparison.metricRated) {
+    verdict = `No published ${comparison.metricLabel} rating — compare against the datasheet directly.`;
+  } else if (comparison.clearsTarget) {
+    verdict = `Clears the ${comparison.metricLabel} target with +${comparison.deltaPct}% headroom (${comparison.metricMbps} Mbps vs ${comparison.targetTPMbps} Mbps).`;
+  } else {
+    verdict = `Falls ~${Math.abs(comparison.deltaPct)}% short of the ${comparison.metricLabel} target (${comparison.metricMbps} Mbps vs ${comparison.targetTPMbps} Mbps) — undersized.`;
+  }
+  return (
+    renderModelBlock('Your current model (comparison only — not a recommendation)', comparison.model, '#64748b') +
+    `<p style="font-size:12px;margin:4px 0 0 0;">${escapeHtml(verdict)}</p>`
+  );
+}
+
 function renderInputsTable(inputs) {
   const rows = Object.entries(inputs || {}).map(([k, v]) => {
     let display = v;
@@ -104,6 +120,7 @@ function buildHtml({ inputs, recommendation, calculations, warnings }) {
   ${renderModelBlock('Recommended', rec.recommended, '#10b981')}
   ${renderModelBlock('Step down (tight fit)', rec.alternativeDown, '#f59e0b')}
   ${renderModelBlock('Step up (extra headroom)', rec.alternativeUp, '#4f46e5')}
+  ${renderComparisonBlock(rec.comparison)}
 
   <h2>Calculation breakdown</h2>
   ${renderCalculations(calculations || rec.calculations)}

@@ -97,7 +97,7 @@ function Toggle({ checked, onChange, label }) {
   );
 }
 
-export default function InputForm({ inputs, onChange, verticalPresets }) {
+export default function InputForm({ inputs, onChange, verticalPresets, comparisonModels = [] }) {
   const update = (patch) => onChange({ ...inputs, ...patch });
 
   const toggleFeature = (name) => {
@@ -192,6 +192,24 @@ export default function InputForm({ inputs, onChange, verticalPresets }) {
             />
           </Field>
         </div>
+
+        <Field
+          label="Current firewall (optional)"
+          hint="The customer's existing box, for comparison. Legacy/EOL models are shown here only — they are never recommended."
+        >
+          <select
+            value={inputs.comparisonModel || ''}
+            onChange={(e) => update({ comparisonModel: e.target.value })}
+            className="w-full px-3 py-2 rounded-md border border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none text-sm bg-white"
+          >
+            <option value="">— None —</option>
+            {comparisonModels.map((m) => (
+              <option key={m.model} value={m.model}>
+                {m.model}
+              </option>
+            ))}
+          </select>
+        </Field>
 
         <div className="pt-3 border-t border-slate-100">
           <div className="text-sm font-medium text-slate-700 mb-1">Interfaces required</div>

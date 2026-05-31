@@ -11,6 +11,7 @@ import {
   PEAK_FACTOR
 } from './lib/constants.js';
 import models from './data/fortigate-models.json';
+import comparisonModels from './data/fortigate-comparison-models.json';
 import verticalPresets from './data/vertical-presets.json';
 
 const DEFAULT_VERTICAL = 'Standard Office';
@@ -27,6 +28,7 @@ function getDefaultInputs() {
     vpnTunnels: 0,
     ipsecDialupUsers: 0,
     haRequired: false,
+    comparisonModel: '',
     internetBandwidthMbps: 1000,
     headroomPct: DEFAULT_HEADROOM_PCT,
     peakFactor: PEAK_FACTOR,
@@ -59,10 +61,11 @@ export default function App() {
     encodeStateToUrl(inputs);
   }, [inputs]);
 
-  const recommendation = useMemo(
-    () => calculateRecommendation(inputs, models),
-    [inputs]
-  );
+  const recommendation = useMemo(() => {
+    const currentModel =
+      comparisonModels.find((m) => m.model === inputs.comparisonModel) || null;
+    return calculateRecommendation(inputs, models, currentModel);
+  }, [inputs]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -106,6 +109,7 @@ export default function App() {
               inputs={inputs}
               onChange={setInputs}
               verticalPresets={verticalPresets}
+              comparisonModels={comparisonModels}
             />
           </div>
           <div className="lg:sticky lg:top-6 lg:self-start">

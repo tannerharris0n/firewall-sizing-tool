@@ -33,7 +33,7 @@ function pickMetricForFeatures(features) {
   return { feature: null, metric: 'threatProtectionGbps', label: 'Threat Protection throughput' };
 }
 
-export function calculateRecommendation(inputs, models) {
+export function calculateRecommendation(inputs, models, comparisonModel) {
   const users = Math.max(1, Number(inputs.users) || 0);
   const devicesPerUser = Math.max(1, Number(inputs.devicesPerUser) || 1);
   const bandwidthPerDeviceMbps = Math.max(0, Number(inputs.bandwidthPerDeviceMbps) || 0);
@@ -240,11 +240,40 @@ export function calculateRecommendation(inputs, models) {
     ]
   };
 
+  // Comparison-only evaluation of the customer's current model. This NEVER enters the
+  // recommendation pool — legacy/EOL boxes are not sizing candidates. We only score the
+  // user-selected current model against the same target/metric so an SE can show where
+  // it lands versus the recommended replacement.
+  let comparison = null;
+  if (comparisonModel && typeof comparisonModel === 'object') {
+    const metricMbps = modelMetricMbps(comparisonModel);
+    const metricRated = typeof comparisonModel[metricChoice.metric] === 'number' && comparisonModel[metricChoice.metric] > 0;
+    const marginMultiplier = metricRated ? metricMbps / Math.max(targetTPMbps, 1) : 0;
+    const ipsecMbps = modelIpsecMbps(comparisonModel);
+    comparison = {
+      model: comparisonModel,
+      metric: metricChoice.metric,
+      metricLabel: metricChoice.label,
+      metricMbps: round(metricMbps),
+      metricRated,
+      marginMultiplier: round(marginMultiplier, 2),
+      deltaPct: metricRated ? Math.round((marginMultiplier - 1) * 100) : null,
+      clearsTarget: metricRated && metricMbps >= targetTPMbps,
+      clearsMinMargin: metricRated && metricMbps >= minAcceptableMbps,
+      targetTPMbps: round(targetTPMbps),
+      ipsecRated: comparisonModel.ipsecVpnGbps > 0,
+      ipsecMbps: round(ipsecMbps),
+      ipsecOk: ipsecLoadMbps <= 0 || comparisonModel.ipsecVpnGbps <= 0 || ipsecMbps >= ipsecLoadMbps,
+      ipsecLoadMbps: round(ipsecLoadMbps)
+    };
+  }
+
   return {
     recommended,
     alternativeDown,
     alternativeUp,
     calculations,
-    warnings
+    warnings,
+    comparison
   };
 }
