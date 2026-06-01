@@ -23,6 +23,12 @@ function formatGbps(n) {
   return n.toFixed(2) + ' Gbps';
 }
 
+function formatRam(model) {
+  if (!model || typeof model.ramGB !== 'number' || model.ramGB <= 0) return '—';
+  const approx = model.ramConfidence && model.ramConfidence !== 'high';
+  return (approx ? '~' : '') + model.ramGB + ' GB';
+}
+
 function renderModelBlock(label, model, accent) {
   if (!model) {
     return `<div class="model"><h3>${escapeHtml(label)}</h3><p>No suitable model found in the database.</p></div>`;
@@ -36,6 +42,7 @@ function renderModelBlock(label, model, accent) {
         <tr><td>NGFW</td><td>${formatGbps(model.ngfwGbps)}</td></tr>
         <tr><td>IPsec VPN</td><td>${formatGbps(model.ipsecVpnGbps)}</td></tr>
         <tr><td>SSL Inspection</td><td>${formatGbps(model.sslInspectionGbps)}</td></tr>
+        <tr><td>System memory</td><td>${formatRam(model)}</td></tr>
         <tr><td>Interfaces</td><td>${escapeHtml(model.interfaces || '—')}</td></tr>
         <tr><td>Form factor</td><td>${escapeHtml(model.formFactor || '—')}</td></tr>
         <tr><td>Use case</td><td>${escapeHtml(model.useCase || '—')}</td></tr>
