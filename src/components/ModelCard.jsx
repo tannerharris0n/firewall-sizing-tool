@@ -7,6 +7,13 @@ function formatGbps(n) {
   return n.toFixed(2) + ' Gbps';
 }
 
+function formatRam(model) {
+  if (typeof model.ramGB !== 'number' || model.ramGB <= 0) return null;
+  // Community-sourced figures (not in Fortinet datasheets) get a "~" hint.
+  const approx = model.ramConfidence && model.ramConfidence !== 'high';
+  return (approx ? '~' : '') + model.ramGB + ' GB';
+}
+
 const TIER_COLORS = {
   desktop: 'bg-slate-100 text-slate-700',
   midrange: 'bg-sky-100 text-sky-800',
@@ -81,6 +88,24 @@ export default function ModelCard({
           <div className="font-medium text-slate-900">{formatGbps(model.sslInspectionGbps)}</div>
         </div>
       </div>
+
+      {formatRam(model) ? (
+        <div className="mt-3">
+          <div className="text-xs text-slate-500">System memory</div>
+          <div
+            className="font-medium text-slate-900 text-sm"
+            title={
+              model.ramNote
+                ? model.ramNote
+                : model.ramConfidence === 'high'
+                ? 'From OS-reported memory on shipping hardware.'
+                : 'Approximate — community-sourced; Fortinet does not publish appliance RAM.'
+            }
+          >
+            {formatRam(model)}
+          </div>
+        </div>
+      ) : null}
 
       {(model.interfaces || model.formFactor) && (
         <div className="mt-3 text-xs text-slate-600">

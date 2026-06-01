@@ -23,7 +23,9 @@
     },
     "poeWatts": 0,
     "formFactor": "desktop",
-    "useCase": "NGFW - Branch"
+    "useCase": "NGFW - Branch",
+    "ramGB": 2,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 40F",
@@ -49,7 +51,9 @@
     },
     "poeWatts": 0,
     "formFactor": "desktop",
-    "useCase": "NGFW - Branch"
+    "useCase": "NGFW - Branch",
+    "ramGB": 2,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 60F",
@@ -75,7 +79,9 @@
     },
     "poeWatts": 0,
     "formFactor": "desktop",
-    "useCase": "NGFW - Branch"
+    "useCase": "NGFW - Branch",
+    "ramGB": 2,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 70F",
@@ -101,7 +107,9 @@
     },
     "poeWatts": 0,
     "formFactor": "desktop",
-    "useCase": "NGFW - Branch"
+    "useCase": "NGFW - Branch",
+    "ramGB": 4,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 80F",
@@ -127,7 +135,9 @@
     },
     "poeWatts": 0,
     "formFactor": "desktop",
-    "useCase": "NGFW - Branch"
+    "useCase": "NGFW - Branch",
+    "ramGB": 4,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 100F",
@@ -153,7 +163,10 @@
     },
     "poeWatts": 0,
     "formFactor": "1U",
-    "useCase": "NGFW - Campus"
+    "useCase": "NGFW - Campus",
+    "ramGB": 4,
+    "ramConfidence": "medium",
+    "ramNote": "Hardware revision-dependent: rev 1 = 4 GB, rev 2 = 8 GB."
   },
   {
     "model": "FortiGate 50G",
@@ -179,7 +192,9 @@
     },
     "poeWatts": 0,
     "formFactor": "desktop",
-    "useCase": "NGFW - Branch"
+    "useCase": "NGFW - Branch",
+    "ramGB": 2,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 70G",
@@ -205,7 +220,9 @@
     },
     "poeWatts": 0,
     "formFactor": "desktop",
-    "useCase": "NGFW - Branch"
+    "useCase": "NGFW - Branch",
+    "ramGB": 4,
+    "ramConfidence": "medium"
   },
   {
     "model": "FortiGate 90G",
@@ -231,7 +248,9 @@
     },
     "poeWatts": 0,
     "formFactor": "desktop",
-    "useCase": "NGFW - Branch"
+    "useCase": "NGFW - Branch",
+    "ramGB": 8,
+    "ramConfidence": "medium"
   },
   {
     "model": "FortiGate 120G",
@@ -257,7 +276,10 @@
     },
     "poeWatts": 0,
     "formFactor": "1U",
-    "useCase": "NGFW - Campus"
+    "useCase": "NGFW - Campus",
+    "ramGB": 8,
+    "ramConfidence": "medium",
+    "ramNote": "Revision-dependent (~8 GB common)."
   },
   {
     "model": "FortiGate 200F",
@@ -283,7 +305,9 @@
     },
     "poeWatts": 0,
     "formFactor": "1U",
-    "useCase": "NGFW - Campus"
+    "useCase": "NGFW - Campus",
+    "ramGB": 8,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 200G",
@@ -309,7 +333,10 @@
     },
     "poeWatts": 0,
     "formFactor": "1U",
-    "useCase": "NGFW - Campus"
+    "useCase": "NGFW - Campus",
+    "ramGB": 24,
+    "ramConfidence": "medium",
+    "ramNote": "Single public source."
   },
   {
     "model": "FortiGate 400F",
@@ -335,7 +362,9 @@
     },
     "poeWatts": 0,
     "formFactor": "1U",
-    "useCase": "NGFW - Campus"
+    "useCase": "NGFW - Campus",
+    "ramGB": 16,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 600F",
@@ -361,7 +390,9 @@
     },
     "poeWatts": 0,
     "formFactor": "1U",
-    "useCase": "NGFW - Campus"
+    "useCase": "NGFW - Campus",
+    "ramGB": 16,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 400G",
@@ -387,7 +418,9 @@
     },
     "poeWatts": 0,
     "formFactor": "1U",
-    "useCase": "NGFW - Campus"
+    "useCase": "NGFW - Campus",
+    "ramGB": null,
+    "ramConfidence": "low"
   },
   {
     "model": "FortiGate 1000F",
@@ -413,7 +446,9 @@
     },
     "poeWatts": 0,
     "formFactor": "1U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 16,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 1800F",
@@ -439,7 +474,9 @@
     },
     "poeWatts": 0,
     "formFactor": "2U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 24,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 2600F",
@@ -465,7 +502,9 @@
     },
     "poeWatts": 0,
     "formFactor": "2U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 48,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 700G",
@@ -491,7 +530,9 @@
     },
     "poeWatts": 0,
     "formFactor": "1U",
-    "useCase": "NGFW - Campus"
+    "useCase": "NGFW - Campus",
+    "ramGB": null,
+    "ramConfidence": "low"
   },
   {
     "model": "FortiGate 900G",
@@ -517,7 +558,9 @@
     },
     "poeWatts": 0,
     "formFactor": "1U",
-    "useCase": "NGFW - Campus"
+    "useCase": "NGFW - Campus",
+    "ramGB": 32,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 3000F",
@@ -543,7 +586,9 @@
     },
     "poeWatts": 0,
     "formFactor": "2U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 128,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 3200F",
@@ -569,7 +614,9 @@
     },
     "poeWatts": 0,
     "formFactor": "2U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 128,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 4200F",
@@ -595,7 +642,9 @@
     },
     "poeWatts": 0,
     "formFactor": "3U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 384,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 6300F",
@@ -621,7 +670,10 @@
     },
     "poeWatts": 0,
     "formFactor": "chassis",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 32,
+    "ramConfidence": "medium",
+    "ramNote": "Per FPC (Gen1 32 GB / Gen2 64 GB); 6 FPCs."
   },
   {
     "model": "FortiGate 3500F",
@@ -647,7 +699,9 @@
     },
     "poeWatts": 0,
     "formFactor": "2U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": null,
+    "ramConfidence": "low"
   },
   {
     "model": "FortiGate 3700F",
@@ -673,7 +727,9 @@
     },
     "poeWatts": 0,
     "formFactor": "2U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 256,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 4400F",
@@ -699,7 +755,10 @@
     },
     "poeWatts": 0,
     "formFactor": "4U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 384,
+    "ramConfidence": "medium",
+    "ramNote": "Inferred from the 4401F DC variant (same hardware)."
   },
   {
     "model": "FortiGate 4800F",
@@ -725,7 +784,9 @@
     },
     "poeWatts": 0,
     "formFactor": "4U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 512,
+    "ramConfidence": "high"
   },
   {
     "model": "FortiGate 3000G",
@@ -751,7 +812,9 @@
     },
     "poeWatts": 0,
     "formFactor": "2U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": null,
+    "ramConfidence": "low"
   },
   {
     "model": "FortiGate 6001F",
@@ -777,7 +840,10 @@
     },
     "poeWatts": 0,
     "formFactor": "chassis",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 32,
+    "ramConfidence": "medium",
+    "ramNote": "Per FPC (Gen1 32 GB / Gen2 64 GB); system total scales with active FPCs."
   },
   {
     "model": "FortiGate 6500F",
@@ -803,7 +869,10 @@
     },
     "poeWatts": 0,
     "formFactor": "chassis",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": 32,
+    "ramConfidence": "medium",
+    "ramNote": "Per FPC (Gen1 32 GB / Gen2 64 GB); 10 FPCs."
   },
   {
     "model": "FortiGate 3500G",
@@ -829,7 +898,9 @@
     },
     "poeWatts": 0,
     "formFactor": "2U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": null,
+    "ramConfidence": "low"
   },
   {
     "model": "FortiGate 3800G",
@@ -855,7 +926,9 @@
     },
     "poeWatts": 0,
     "formFactor": "3U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": null,
+    "ramConfidence": "low"
   },
   {
     "model": "FortiGate 7081F",
@@ -881,7 +954,10 @@
     },
     "poeWatts": 0,
     "formFactor": "12U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": null,
+    "ramConfidence": "low",
+    "ramNote": "Chassis — RAM is per FPM-7620F processor module; not publicly published."
   },
   {
     "model": "FortiGate 7121F",
@@ -907,6 +983,9 @@
     },
     "poeWatts": 0,
     "formFactor": "16U",
-    "useCase": "NGFW - Data Center"
+    "useCase": "NGFW - Data Center",
+    "ramGB": null,
+    "ramConfidence": "low",
+    "ramNote": "Chassis — RAM is per FPM-7620F processor module; not publicly published."
   }
 ]

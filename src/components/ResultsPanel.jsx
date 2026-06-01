@@ -46,6 +46,9 @@ function formatTextSummary(inputs, recommendation) {
     lines.push(`  Threat Protection: ${rec.threatProtectionGbps} Gbps`);
     lines.push(`  NGFW: ${rec.ngfwGbps} Gbps`);
     lines.push(`  IPsec VPN: ${rec.ipsecVpnGbps} Gbps`);
+    if (typeof rec.ramGB === 'number' && rec.ramGB > 0) {
+      lines.push(`  System memory: ${rec.ramConfidence !== 'high' ? '~' : ''}${rec.ramGB} GB`);
+    }
   } else {
     lines.push('No suitable model found.');
   }
