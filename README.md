@@ -47,7 +47,18 @@ Devices per user defaults to 3 (laptop, phone, tablet). Peak factor defaults to 
 - Shareable URL with all inputs encoded
 - PDF export for proposals
 - AI-generated rationale paragraph for proposal language
+- **Config table-capacity check** — paste a FortiGate config (or load a `.conf`) and verify a target model can actually hold its object counts against the per-model hard maximums. Catches the migration trap where throughput grows but a table limit shrinks (e.g. a 100F allows 512 `webfilter.profile` objects, a 121G only 32).
 - Mobile responsive
+
+## Config table-capacity check
+
+The second mode ("Check config capacity") parses a FortiGate config entirely in your browser, counts the objects in each config table, and compares those counts against the **hard-coded maximum values** Fortinet publishes in its [Maximum Values Table](https://docs.fortinet.com/max-value-table?family=fortigate&version=8.0.0).
+
+These maximums don't track linearly with model size or price, so a "bigger" replacement firewall can silently support *fewer* of something you depend on. The tool flags every table where your config exceeds the target model's limit.
+
+- Data is scraped (pinned to FortiOS 8.0.0) via `npm run scrape:maxvalues` → `public/maxvalues/fortigate-<version>.json`, lazy-fetched at runtime.
+- Limits are `[instance, per-vdom, global]`; the whole-config total is compared against the global limit (falling back to per-vdom, then instance). Multi-VDOM configs sum to the box-wide total.
+- Values are the hard-coded maxes from Fortinet — not a promise of performance. Run `print tablesize` on the unit for its authoritative table.
 
 ## Stack
 

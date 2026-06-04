@@ -10,7 +10,8 @@
     "dev:server": "node server.cjs",
     "dev": "concurrently -k -n client,server -c cyan,magenta \"npm run dev:client\" \"npm run dev:server\"",
     "build": "vite build",
-    "start": "node server.cjs"
+    "start": "node server.cjs",
+    "scrape:maxvalues": "node scripts/scrape-maxvalues.cjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.30.1",
