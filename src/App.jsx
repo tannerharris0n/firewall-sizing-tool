@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import InputForm from './components/InputForm.jsx';
 import ResultsPanel from './components/ResultsPanel.jsx';
+import TableCapacityCheck from './components/TableCapacityCheck.jsx';
 import Disclaimer from './components/Disclaimer.jsx';
 import { calculateRecommendation } from './lib/sizing-engine.js';
 import { decodeStateFromUrl, encodeStateToUrl } from './lib/url-state.js';
@@ -48,7 +49,13 @@ function getDefaultInputs() {
   };
 }
 
+const MODES = [
+  { id: 'size', label: 'Size by users', hint: 'Recommend a model from environment characteristics' },
+  { id: 'capacity', label: 'Check config capacity', hint: 'Verify a target model holds your config’s table sizes' },
+];
+
 export default function App() {
+  const [mode, setMode] = useState('size');
   const [inputs, setInputs] = useState(() => {
     const restored = typeof window !== 'undefined' ? decodeStateFromUrl() : null;
     if (restored && typeof restored === 'object') {
@@ -103,19 +110,40 @@ export default function App() {
       </header>
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div>
-            <InputForm
-              inputs={inputs}
-              onChange={setInputs}
-              verticalPresets={verticalPresets}
-              comparisonModels={comparisonModels}
-            />
-          </div>
-          <div className="lg:sticky lg:top-6 lg:self-start">
-            <ResultsPanel inputs={inputs} recommendation={recommendation} />
-          </div>
+        <div className="mb-6 inline-flex rounded-lg border border-slate-200 bg-white p-1 shadow-sm">
+          {MODES.map((m) => (
+            <button
+              key={m.id}
+              type="button"
+              onClick={() => setMode(m.id)}
+              title={m.hint}
+              className={
+                'px-4 py-2 text-sm font-medium rounded-md transition-colors ' +
+                (mode === m.id ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:bg-slate-100')
+              }
+            >
+              {m.label}
+            </button>
+          ))}
         </div>
+
+        {mode === 'size' ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div>
+              <InputForm
+                inputs={inputs}
+                onChange={setInputs}
+                verticalPresets={verticalPresets}
+                comparisonModels={comparisonModels}
+              />
+            </div>
+            <div className="lg:sticky lg:top-6 lg:self-start">
+              <ResultsPanel inputs={inputs} recommendation={recommendation} />
+            </div>
+          </div>
+        ) : (
+          <TableCapacityCheck />
+        )}
       </main>
 
       <Disclaimer />
