@@ -9,6 +9,8 @@ import {
   DEFAULT_DEVICES_PER_USER,
   DEFAULT_HEADROOM_PCT,
   DEFAULT_MIN_MARGIN,
+  DEFAULT_SESSION_UTILIZATION_PCT,
+  DEFAULT_THROUGHPUT_UTILIZATION_PCT,
   PEAK_FACTOR
 } from './lib/constants.js';
 import models from './data/fortigate-models.json';
@@ -34,6 +36,8 @@ function getDefaultInputs() {
     headroomPct: DEFAULT_HEADROOM_PCT,
     peakFactor: PEAK_FACTOR,
     minMargin: DEFAULT_MIN_MARGIN,
+    throughputUtilizationPct: DEFAULT_THROUGHPUT_UTILIZATION_PCT,
+    sessionUtilizationPct: DEFAULT_SESSION_UTILIZATION_PCT,
     showCompanionProducts: false,
     portRequirements: {
       copper: 0,

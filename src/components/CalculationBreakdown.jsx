@@ -23,8 +23,10 @@ export default function CalculationBreakdown({ calculations }) {
           </pre>
           {calculations.marginMultiplier > 0 ? (
             <div className="mt-3 text-xs text-slate-500">
-              Margin {calculations.marginMultiplier.toFixed(2)}x over target. A multiplier of
-              1.5x or higher generally gives comfortable runway.
+              Margin {calculations.marginMultiplier.toFixed(2)}x over target, measured on usable
+              capacity — {calculations.throughputUtilizationPct}% of the datasheet throughput and{' '}
+              {calculations.sessionUtilizationPct}% of the datasheet session counts, per the
+              Fortinet SE rule of thumb. Anything at or above 1.0x has already absorbed that derate.
             </div>
           ) : null}
         </div>

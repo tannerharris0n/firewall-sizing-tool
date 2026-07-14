@@ -339,8 +339,32 @@ export default function InputForm({ inputs, onChange, verticalPresets, compariso
           />
         </Field>
         <Field
-          label={`Minimum margin: ${(inputs.minMargin || 1).toFixed(2)}x`}
-          hint="Reject models that barely clear the target. 1.0x = pick smallest fit; 1.5x = require 50% above target before recommending."
+          label={`Usable throughput: ${inputs.throughputUtilizationPct}% of datasheet`}
+          hint="Fortinet SE rule of thumb: plan against 50% of the datasheet throughput number. Datasheet figures are best-case lab results."
+        >
+          <Slider
+            value={inputs.throughputUtilizationPct}
+            onChange={(v) => update({ throughputUtilizationPct: v })}
+            min={25}
+            max={100}
+            step={5}
+          />
+        </Field>
+        <Field
+          label={`Usable sessions: ${inputs.sessionUtilizationPct}% of datasheet`}
+          hint="Rule of thumb: plan against 10% of the datasheet concurrent-session and new-sessions/sec numbers."
+        >
+          <Slider
+            value={inputs.sessionUtilizationPct}
+            onChange={(v) => update({ sessionUtilizationPct: v })}
+            min={5}
+            max={100}
+            step={5}
+          />
+        </Field>
+        <Field
+          label={`Extra minimum margin: ${(inputs.minMargin || 1).toFixed(2)}x`}
+          hint="Stacked on top of the usable-throughput derate. 1.0x = the derate alone is the safety factor; raise it to reject models that only just clear the target."
         >
           <Slider
             value={inputs.minMargin || 1}

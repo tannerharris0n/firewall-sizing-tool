@@ -40,8 +40,11 @@ function renderModelBlock(label, model, accent) {
         <tr><td>Tier</td><td>${escapeHtml(model.tier || '—')}</td></tr>
         <tr><td>Threat Protection</td><td>${formatGbps(model.threatProtectionGbps)}</td></tr>
         <tr><td>NGFW</td><td>${formatGbps(model.ngfwGbps)}</td></tr>
+        <tr><td>IPS</td><td>${formatGbps(model.ipsGbps)}</td></tr>
         <tr><td>IPsec VPN</td><td>${formatGbps(model.ipsecVpnGbps)}</td></tr>
         <tr><td>SSL Inspection</td><td>${formatGbps(model.sslInspectionGbps)}</td></tr>
+        <tr><td>Concurrent sessions</td><td>${(Number(model.concurrentSessions) || 0).toLocaleString() || '—'}</td></tr>
+        <tr><td>New sessions/sec</td><td>${(Number(model.newSessionsPerSec) || 0).toLocaleString() || '—'}</td></tr>
         <tr><td>System memory</td><td>${formatRam(model)}</td></tr>
         <tr><td>Interfaces</td><td>${escapeHtml(model.interfaces || '—')}</td></tr>
         <tr><td>Form factor</td><td>${escapeHtml(model.formFactor || '—')}</td></tr>
@@ -56,10 +59,12 @@ function renderComparisonBlock(comparison) {
   let verdict;
   if (!comparison.metricRated) {
     verdict = `No published ${comparison.metricLabel} rating — compare against the datasheet directly.`;
+  } else if (comparison.clearsTarget && comparison.clearsSessions) {
+    verdict = `Clears the ${comparison.metricLabel} target with +${comparison.deltaPct}% usable headroom (${comparison.usableMbps} Mbps usable of ${comparison.metricMbps} Mbps rated, vs ${comparison.targetTPMbps} Mbps).`;
   } else if (comparison.clearsTarget) {
-    verdict = `Clears the ${comparison.metricLabel} target with +${comparison.deltaPct}% headroom (${comparison.metricMbps} Mbps vs ${comparison.targetTPMbps} Mbps).`;
+    verdict = `Has the bandwidth (${comparison.usableMbps} Mbps usable vs ${comparison.targetTPMbps} Mbps) but not the session capacity: ${comparison.usableNewSessionsPerSec.toLocaleString()} usable new sessions/sec and ${comparison.usableConcurrentSessions.toLocaleString()} usable concurrent sessions, against ${comparison.requiredNewSessionsPerSec.toLocaleString()} and ${comparison.requiredConcurrentSessions.toLocaleString()} required.`;
   } else {
-    verdict = `Falls ~${Math.abs(comparison.deltaPct)}% short of the ${comparison.metricLabel} target (${comparison.metricMbps} Mbps vs ${comparison.targetTPMbps} Mbps) — undersized.`;
+    verdict = `Falls ~${Math.abs(comparison.deltaPct)}% short of the ${comparison.metricLabel} target (${comparison.usableMbps} Mbps usable of ${comparison.metricMbps} Mbps rated, vs ${comparison.targetTPMbps} Mbps) — undersized.`;
   }
   return (
     renderModelBlock('Your current model (comparison only — not a recommendation)', comparison.model, '#64748b') +

@@ -22,18 +22,33 @@ WatchGuard nailed this with their product sizing tool by asking how many people 
 
 ## How it works
 
-The sizing engine uses Threat Protection throughput as the primary sizing metric because it is the most representative real-world number for a FortiGate running a typical UTM stack. Firewall-only throughput is a vanity metric.
+The engine follows the Fortinet SE "rule of thumb" for NGFW sizing: derive the requirement per user, then check it against a *derated* view of the datasheet, because published throughput and session numbers are best-case lab figures.
 
-The math:
+The requirement:
 
-    required = users x devices_per_user x bandwidth_per_device x peak_factor
-    target   = required x (1 + headroom_percentage)
+    bandwidth   = users x devices_per_user x bandwidth_per_device x peak_factor
+    target      = max(bandwidth x (1 + headroom_percentage), internet_pipe)
+    new sessions/sec    = users x 10
+    concurrent sessions = users x 100
 
-The tool filters the FortiGate model database for models whose Threat Protection throughput meets or exceeds the target, sorts ascending, and recommends the smallest model that fits. Two alternatives surface alongside: one step down with caveats about being tight, one step up for more headroom.
+The capability, per the rule of thumb:
 
-Bandwidth-per-device defaults come from a vertical preset table. A standard office user is assumed to need around 1 Mbps per device. Healthcare with imaging assumes 3 Mbps. Manufacturing and OT assume 0.3 Mbps because session count typically matters more than bandwidth in those environments.
+    usable throughput = datasheet throughput x 50%
+    usable sessions   = datasheet sessions   x 10%
 
-Devices per user defaults to 3 (laptop, phone, tablet). Peak factor defaults to 1.5x. Headroom defaults to 40% for five-year growth planning. All of these are user-adjustable in the Advanced section.
+A model is eligible only if its usable throughput clears the target, its usable session capacity clears both session requirements, and its IPsec VPN capacity covers the tunnel and dialup load. The smallest eligible model wins (G-series preferred over an equivalent F-series), with a step-down and a step-up shown alongside. The breakdown names the *binding constraint* — the requirement that actually rules out the next model down — so it is obvious whether the pick is driven by bandwidth, sessions, or VPN.
+
+This is why bandwidth alone is not enough. A FortiGate 400F rates 9 Gbps of Threat Protection, but at 50% that is 4.5 Gbps of usable throughput — so it fails a 10 Gbps requirement even though its raw firewall throughput is 79.5 Gbps.
+
+Which throughput metric applies depends on the selected security features: SSL Deep Inspection uses SSL Inspection throughput, Antivirus/Sandboxing use Threat Protection, Application Control uses NGFW, and IPS alone uses IPS throughput. With no inspection features selected the engine still sizes on Threat Protection rather than raw firewall throughput, which is a vanity metric every box clears.
+
+Bandwidth-per-device defaults come from a vertical preset table. A standard office user is assumed to need around 1 Mbps per device. Healthcare with imaging assumes 3 Mbps. Manufacturing and OT assume 0.3 Mbps because session count typically matters more than bandwidth in those environments — those verticals add 50 concurrent sessions per device on top of the 100/user baseline.
+
+Devices per user defaults to 3 (laptop, phone, tablet). Peak factor defaults to 1.5x. Headroom defaults to 40% for five-year growth planning. The 50%/10% derates are adjustable in the Advanced section, as is an optional extra margin on top of them.
+
+## Model data
+
+Throughput, session, and client-tunnel figures come from the Fortinet Product Matrix (July 2026) for the 28 models it lists, and from the individual product datasheets for the 100F, 200F, 400F, 600F, and 6000F-series chassis. Session and throughput values are the base (non-Hyperscale) numbers; 6000F chassis values reflect a fully populated configuration.
 
 ## Features
 

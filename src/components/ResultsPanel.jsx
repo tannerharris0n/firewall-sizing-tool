@@ -15,15 +15,22 @@ function comparisonVerdict(c) {
       text: `No published ${label} rating for the ${name} — compare against its datasheet directly.`
     };
   }
-  if (c.clearsTarget) {
+  const capacity = `${c.usableMbps} Mbps usable of ${c.metricMbps} Mbps rated ${label}, vs a ${c.targetTPMbps} Mbps target`;
+  if (c.clearsTarget && c.clearsSessions) {
     return {
       tone: 'good',
-      text: `Clears the ${label} target with +${c.deltaPct}% headroom (${c.metricMbps} Mbps vs ${c.targetTPMbps} Mbps target).`
+      text: `Clears the target with +${c.deltaPct}% usable headroom (${capacity}), and has the session capacity for ${c.requiredConcurrentSessions.toLocaleString()} concurrent sessions.`
+    };
+  }
+  if (c.clearsTarget && !c.clearsSessions) {
+    return {
+      tone: 'bad',
+      text: `Has the bandwidth (${capacity}) but not the session capacity: ${c.usableNewSessionsPerSec.toLocaleString()} usable new sessions/sec and ${c.usableConcurrentSessions.toLocaleString()} usable concurrent sessions, against ${c.requiredNewSessionsPerSec.toLocaleString()} and ${c.requiredConcurrentSessions.toLocaleString()} required.`
     };
   }
   return {
     tone: 'bad',
-    text: `Falls ~${Math.abs(c.deltaPct)}% short of the ${label} target (${c.metricMbps} Mbps vs ${c.targetTPMbps} Mbps) — undersized for this environment.`
+    text: `Falls ~${Math.abs(c.deltaPct)}% short of the ${label} target (${capacity}) — undersized for this environment.`
   };
 }
 
