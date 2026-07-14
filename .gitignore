@@ -3,3 +3,6 @@ dist
 .env
 .DS_Store
 .vite
+
+# Internal Fortinet SE deck material — not for the public repo
+Rule of Thumb/

@@ -7,6 +7,18 @@ function formatGbps(n) {
   return n.toFixed(2) + ' Gbps';
 }
 
+function formatCount(n) {
+  if (typeof n !== 'number' || !isFinite(n) || n === 0) return '—';
+  return n.toLocaleString();
+}
+
+function formatSessions(n) {
+  if (typeof n !== 'number' || !isFinite(n) || n === 0) return '—';
+  if (n >= 1e9) return +(n / 1e9).toFixed(1) + 'B';
+  if (n >= 1e6) return +(n / 1e6).toFixed(1) + 'M';
+  return n.toLocaleString();
+}
+
 function formatRam(model) {
   if (typeof model.ramGB !== 'number' || model.ramGB <= 0) return null;
   // Community-sourced figures (not in Fortinet datasheets) get a "~" hint.
@@ -80,12 +92,28 @@ export default function ModelCard({
           <div className="font-medium text-slate-900">{formatGbps(model.ngfwGbps)}</div>
         </div>
         <div>
-          <div className="text-xs text-slate-500">IPsec VPN</div>
-          <div className="font-medium text-slate-900">{formatGbps(model.ipsecVpnGbps)}</div>
+          <div className="text-xs text-slate-500">IPS</div>
+          <div className="font-medium text-slate-900">{formatGbps(model.ipsGbps)}</div>
         </div>
         <div>
           <div className="text-xs text-slate-500">SSL Inspection</div>
           <div className="font-medium text-slate-900">{formatGbps(model.sslInspectionGbps)}</div>
+        </div>
+        <div>
+          <div className="text-xs text-slate-500">IPsec VPN</div>
+          <div className="font-medium text-slate-900">{formatGbps(model.ipsecVpnGbps)}</div>
+        </div>
+        <div>
+          <div className="text-xs text-slate-500">Concurrent sessions</div>
+          <div className="font-medium text-slate-900">{formatSessions(model.concurrentSessions)}</div>
+        </div>
+        <div>
+          <div className="text-xs text-slate-500">New sessions/sec</div>
+          <div className="font-medium text-slate-900">{formatCount(model.newSessionsPerSec)}</div>
+        </div>
+        <div>
+          <div className="text-xs text-slate-500">Max dialup tunnels</div>
+          <div className="font-medium text-slate-900">{formatCount(model.maxClientVpnTunnels)}</div>
         </div>
       </div>
 
@@ -140,9 +168,12 @@ export default function ModelCard({
       ) : null}
 
       {marginMultiplier != null && marginMultiplier > 0 ? (
-        <div className={'mt-4 text-sm font-medium ' + marginColor}>
+        <div
+          className={'mt-4 text-sm font-medium ' + marginColor}
+          title="Measured on usable capacity (datasheet throughput after the rule-of-thumb derate), not the datasheet headline."
+        >
           {marginPct >= 0 ? '+' : ''}
-          {marginPct}% headroom over target ({marginMultiplier.toFixed(2)}x)
+          {marginPct}% usable headroom over target ({marginMultiplier.toFixed(2)}x)
         </div>
       ) : null}
     </div>

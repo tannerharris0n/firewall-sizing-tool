@@ -12,9 +12,38 @@ function buildReasons(inputs, recommendation) {
     kind: 'metric',
     title: `Sized against ${c.metricLabel || 'Threat Protection throughput'}`,
     body: c.triggeringFeature
-      ? `"${c.triggeringFeature}" is the most demanding feature you selected, so the engine constrains the pick by the firewall's ${c.metricLabel}. ${rec.model} delivers ${c.recommendedThroughputMbps} Mbps on this metric.`
+      ? `"${c.triggeringFeature}" is the most demanding feature you selected, so the engine constrains the pick by the firewall's ${c.metricLabel}. ${rec.model} is rated ${c.recommendedThroughputMbps} Mbps on this metric, of which ${c.recommendedUsableMbps} Mbps is planned as usable.`
       : `No inspection features are selected. The engine uses ${c.metricLabel} as the constraint. If you turn on IPS, App Control, AV, or SSL Deep Inspection, the sizing metric tightens and a larger model may be needed.`
   });
+
+  // Rule-of-thumb derate
+  reasons.push({
+    kind: 'derate',
+    title: `Datasheet numbers derated to ${c.throughputUtilizationPct}% throughput / ${c.sessionUtilizationPct}% sessions`,
+    body: `Datasheet figures are best-case lab results, so the Fortinet SE rule of thumb plans against a fraction of them. ${rec.model}'s ${c.recommendedThroughputMbps} Mbps becomes ${c.recommendedUsableMbps} Mbps usable against a ${c.targetTPMbps} Mbps target.`
+  });
+
+  // Session requirements
+  reasons.push({
+    kind: 'sessions',
+    title: `Session capacity checked, not just bandwidth`,
+    body: `At 10 new sessions and 100 concurrent sessions per user, ${c.users} users need ${Number(c.requiredNewSessionsPerSec).toLocaleString()} new sessions/sec and ${Number(c.requiredConcurrentSessions).toLocaleString()} concurrent sessions${c.iotConcurrentSessions > 0 ? ` (including ${Number(c.iotConcurrentSessions).toLocaleString()} extra sessions for IoT-heavy devices)` : ''}. ${rec.model} supplies ${Number(c.recommendedUsableNewSessionsPerSec).toLocaleString()} and ${Number(c.recommendedUsableConcurrentSessions).toLocaleString()} usable respectively.`
+  });
+
+  // Which requirement actually forced this size
+  if (c.bindingConstraint) {
+    const names = {
+      throughput: c.metricLabel,
+      concurrentSessions: 'concurrent session capacity',
+      newSessions: 'new sessions/sec',
+      ipsec: 'IPsec VPN capacity'
+    };
+    reasons.push({
+      kind: 'binding',
+      title: `${names[c.bindingConstraint] || c.bindingConstraint} is the binding constraint`,
+      body: `Of all the requirements, this is the one that rules out the next model down. Relax it — fewer users, fewer features, a smaller pipe — and a smaller box becomes viable.`
+    });
+  }
 
   // Where the target came from
   if (c.targetDrivenBy === 'internet' && c.internetMbps > 0) {
@@ -41,8 +70,8 @@ function buildReasons(inputs, recommendation) {
   if (c.minMargin > 1) {
     reasons.push({
       kind: 'margin',
-      title: `Minimum margin of ${c.minMargin.toFixed(2)}× applied`,
-      body: `The engine refuses any model that doesn't have at least ${c.minMargin.toFixed(2)}× headroom over the ${c.targetTPMbps} Mbps target. That's why a smaller-but-eligible model isn't recommended — it would land too close to peak load. ${rec.model} clears the bar by ${c.marginMultiplier}×.`
+      title: `Extra minimum margin of ${c.minMargin.toFixed(2)}× applied`,
+      body: `On top of the usable-throughput derate, the engine refuses any model whose usable throughput isn't at least ${c.minMargin.toFixed(2)}× the ${c.targetTPMbps} Mbps target. That's why a smaller-but-eligible model isn't recommended — it would land too close to peak load. ${rec.model} clears the bar by ${c.marginMultiplier}×.`
     });
   }
 
